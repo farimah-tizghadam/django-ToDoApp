@@ -13,7 +13,7 @@
                 <h2 class="fw-bold mb-0">Todo App</h2>
                 <div class="modal-header">
                     {% if user.is_authenticated %}
-                    <p class="mb-0">Hello, {{ user.username }}!</p>
+                    <p class="mb-0">Hello, {{ user }}!</p>
                     <a class="mb-0" href="{% url 'accounts:logout' %}">Logout</a>
                     {% else %}
                     <p class="mb-0"><a href="{% url 'accounts:login' %}">Login</a></p>
@@ -23,11 +23,11 @@
 
             <div class="modal-body p-5 pt-0">
 
-                <form class="pt-3" method="POST" action="{% url 'create_task' %}">
+                <form class="pt-3" method="POST" action="{% url 'task:create_task' %}">
                     {% csrf_token %}
                     <div class="input-group mb-3">
                         <input type="text" class="form-control rounded-4" name="title" placeholder="Enter task title"
-                            aria-label="Recipient's username" aria-describedby="button-addon2">
+                            aria-label="Recipient's username" aria-describedby="button-addon2" required="false">
                         <button class="btn btn-primary" type="submit">Add</button>
                     </div>
 
@@ -42,15 +42,21 @@
                             <span>{{task}}</span>
                             {% endif %}
                         </span>
-                        <a type="button" class="btn btn-danger" href="{% url 'delete_task' task.id %}"><i
+                        <a type="button" class="btn btn-danger" href="{% url 'task:delete_task' task.id %}"><i
                                 class="bi bi-trash"></i></a>
                         <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="visually-hidden">Toggle Dropdown</span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="{% url 'complete_task' task.id %}">Done</a></li>
-                            <li><a class="dropdown-item" href="{% url 'update_task' task.id %}">Edit</a></li>
+                            {% if task.complete != True %}
+                            <li><a class="dropdown-item" href="{% url 'task:complete_task' task.id %}">Done</a></li>
+                            {% endif %}
+                            <li><a class="dropdown-item" href="{% url 'task:update_task' task.id %}">Edit</a></li>
+                            {% if task.complete == True %}
+                            <li><a class="dropdown-item" href="{% url 'task:undone_task' task.id %}">UnDone</a></li>
+                            {% endif %}
+
                         </ul>
                     </div>
 

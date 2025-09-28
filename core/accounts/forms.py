@@ -1,19 +1,28 @@
-from django.contrib.auth.forms import AuthenticationForm
 from django import forms
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+
+# get user model object
+User = get_user_model()
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['email', 'password1', 'password2']
 
 
+class LoginForm(forms.Form):
+    email = forms.EmailField(label=_("Email"), required=True)
+    password = forms.CharField(widget=forms.PasswordInput(), label=_("Password"), required=True)
 
-class CustomAuthenticationForm(AuthenticationForm):
-    def clean_username(self):
-        username = self.cleaned_data.get('username')
-        # Perform any custom validation on the username
-        return username
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)  # Extract 'request' if provided
+        super().__init__(*args, **kwargs)  # Call the parent class' init
+
+    def get_user(self):
+        email = self.cleaned_data.get('email')
+        user = User.objects.filter(email=email).first()
+        return user

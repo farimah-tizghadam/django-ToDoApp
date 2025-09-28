@@ -1,13 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
-
-# Create todo model.
-
 
 class Task(models.Model):
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=True, blank=True
-    )
+    user = models.ForeignKey('accounts.Profile', on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=200)
     complete = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)

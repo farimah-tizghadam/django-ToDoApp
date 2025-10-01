@@ -11,6 +11,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 
 
 class TaskListView(LoginRequiredMixin,ListView):
+    """
+    This is a class base view for getting user task list
+    """
     model = Task
     context_object_name = 'tasks'
     template_name = "todo/list_task.html"
@@ -21,6 +24,9 @@ class TaskListView(LoginRequiredMixin,ListView):
         return tasks
 
 class TaskCreateView(LoginRequiredMixin,CreateView):
+    """
+     Creating task 
+    """
     model = Task
     form_class = TaskForm
     success_url = '/'
@@ -34,6 +40,9 @@ class TaskCreateView(LoginRequiredMixin,CreateView):
         return self.render_to_response({'form': form})
 
 class TaskUpdateView(LoginRequiredMixin,UpdateView):
+    """
+    Updating task
+    """
     model = Task
     form_class = TaskForm
     success_url = '/'
@@ -47,6 +56,9 @@ class TaskUpdateView(LoginRequiredMixin,UpdateView):
 
 
 class TaskCompleteView(LoginRequiredMixin,View):
+    """
+    Change task status to complete
+    """
     model = Task
     success_url = '/'
 
@@ -60,6 +72,9 @@ class TaskCompleteView(LoginRequiredMixin,View):
        
 
 class TaskDeleteView(LoginRequiredMixin,DeleteView):
+    """
+    Deleting task
+    """
     model = Task
     context_object_name = "task"
     success_url = '/'
@@ -76,6 +91,9 @@ class TaskDeleteView(LoginRequiredMixin,DeleteView):
     
 
 class TaskUnDoneView(LoginRequiredMixin,View):
+    """
+    Change tasks' complete status to False
+    """
     model = Task
     success_url = '/'
 

@@ -60,6 +60,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Profile(models.Model):
+
+    """ 
+    Profile model for users extra data 
+    """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
@@ -73,6 +77,9 @@ class Profile(models.Model):
 
 @receiver(post_save, sender=User)
 def save_profile(sender, instance, created,**kwargs):
+    """
+    creating profile for each new user
+    """
     if created:
         Profile.objects.create(user=instance)
     

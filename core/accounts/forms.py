@@ -7,6 +7,10 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 User = get_user_model()
 
 class CustomUserCreationForm(UserCreationForm):
+
+    """ 
+    creating custom user form 
+    """
     email = forms.EmailField(required=True)
 
     class Meta:
@@ -15,6 +19,10 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class LoginForm(forms.Form):
+
+    """ 
+    creating custom user login form 
+    """
     email = forms.EmailField(label=_("Email"), required=True)
     password = forms.CharField(widget=forms.PasswordInput(), label=_("Password"), required=True)
 

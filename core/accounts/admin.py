@@ -3,6 +3,9 @@ from django.contrib.auth.admin import UserAdmin
 from .models import User, Profile
 
 class CustomUserAdmin(UserAdmin):
+    """
+    Define a new user admin which is base on email
+    """
     model = User
     list_display = ("email", "is_superuser", "is_active",)
     list_filter = ("email", "is_superuser", "is_active",)

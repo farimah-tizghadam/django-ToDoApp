@@ -1,6 +1,9 @@
 from django.db import models
 
 class Task(models.Model):
+    """
+    This is a model for tasks
+    """
     user = models.ForeignKey('accounts.Profile', on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=200)
     complete = models.BooleanField(default=False)

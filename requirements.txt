@@ -1,6 +1,11 @@
+# general modules
 Django >4.2,<4.3
 python-decouple
 pillow
 djangorestframework
+
+
+# third party modules
 markdown
 django-filter
+drf-yasg[validation]

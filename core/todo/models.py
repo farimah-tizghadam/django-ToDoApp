@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 class Task(models.Model):
     """
@@ -16,3 +17,5 @@ class Task(models.Model):
     class Meta:
         order_with_respect_to = "user"
 
+    def get_absolute_api_url(self):
+        return reverse('task:api-v1:task-detail', kwargs={'pk': self.id})

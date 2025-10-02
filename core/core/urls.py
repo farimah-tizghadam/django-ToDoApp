@@ -27,8 +27,7 @@ schema_view = get_schema_view(
    openapi.Info(
       title="Todo API",
       default_version='v1',
-      description="This is an API for TODO webapp",
-
+      description="This is an API for todo webapp",
       terms_of_service="https://www.google.com/policies/terms/",
       contact=openapi.Contact(email="farimahtizghadam@gmail.com"),
       license=openapi.License(name="MIT License"),

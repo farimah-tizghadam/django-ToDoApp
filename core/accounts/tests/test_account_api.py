@@ -163,13 +163,13 @@ class TestUserApi:
         create_response = api_client.post(url, data)
         verify_token = create_response.data["refresh"]
 
-        verify_url = reverse("accounts:api-V1:jwt_verify")
+        verify_url = reverse("accounts:api-V1:jwt-verify")
         verify_data = {"token": verify_token}
         response = api_client.post(verify_url, verify_data)
         assert response.status_code == 200
 
     def test_verify_jwt_token_400_status_code(self, api_client):
-        verify_url = reverse("accounts:api-V1:jwt_verify")
+        verify_url = reverse("accounts:api-V1:jwt-verify")
         verify_data = {}
         response = api_client.post(verify_url, verify_data)
         assert response.status_code == 400

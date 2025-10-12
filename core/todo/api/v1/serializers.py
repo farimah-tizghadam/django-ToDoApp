@@ -5,27 +5,36 @@ from accounts.models import Profile
 
 class TaskSerializer(serializers.ModelSerializer):
 
-    relative_url = serializers.URLField(source='get_absolute_api_url', read_only=True)
-    absolute_url = serializers.SerializerMethodField(method_name='get_absolute_url')
+    relative_url = serializers.URLField(source="get_absolute_api_url", read_only=True)
+    absolute_url = serializers.SerializerMethodField(method_name="get_absolute_url")
 
     class Meta:
         model = Task
-        fields = ['id', 'user', 'title', 'complete', 'relative_url', 'absolute_url', 'creation_date']
-        read_only_fields = ['user']
-
+        fields = [
+            "id",
+            "user",
+            "title",
+            "complete",
+            "relative_url",
+            "absolute_url",
+            "creation_date",
+        ]
+        read_only_fields = ["user"]
 
     def get_absolute_url(self, obj):
-        request = self.context.get('request')
+        request = self.context.get("request")
         return request.build_absolute_uri(obj.pk)
-    
+
     def to_representation(self, instance):
-        request = self.context.get('request')
+        request = self.context.get("request")
         rep = super().to_representation(instance)
-        if request.parser_context.get('kwargs').get('pk'):
-            rep.pop('relative_url', None)
-            rep.pop('absolute_url', None)
+        if request.parser_context.get("kwargs").get("pk"):
+            rep.pop("relative_url", None)
+            rep.pop("absolute_url", None)
         return rep
-    
+
     def create(self, validate_data):
-        validate_data['author'] = Profile.objects.get(user__id = self.context.get('request').user.id)
+        validate_data["author"] = Profile.objects.get(
+            user__id=self.context.get("request").user.id
+        )
         return super().create(validate_data)

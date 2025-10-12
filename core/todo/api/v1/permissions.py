@@ -15,6 +15,6 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 
         # Instance must have an attribute named `author`.
         return obj.user.user == request.user
-    
+
     def filter_queryset(self, request, queryset, view):
         return queryset.objects.filter(user=request.user)

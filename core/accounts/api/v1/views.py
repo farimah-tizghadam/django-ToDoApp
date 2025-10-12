@@ -25,7 +25,6 @@ from rest_framework_simplejwt.tokens import RefreshToken
 import jwt
 from django.conf import settings
 from jwt.exceptions import ExpiredSignatureError, InvalidSignatureError
-from django_rest_passwordreset.tokens import get_token_generator
 from .permissions import AllowUnauthenticatedUser
 from rest_framework.exceptions import PermissionDenied
 

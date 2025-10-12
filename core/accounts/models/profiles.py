@@ -5,12 +5,11 @@ from django.dispatch import receiver
 from .users import User
 
 
-
 class Profile(models.Model):
-
-    """ 
-    Profile model for users extra data 
     """
+    Profile model for users extra data
+    """
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
@@ -22,11 +21,11 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.email
 
+
 @receiver(post_save, sender=User)
-def save_profile(sender, instance, created,**kwargs):
+def save_profile(sender, instance, created, **kwargs):
     """
     creating profile for each new user
     """
     if created:
         Profile.objects.create(user=instance)
-    

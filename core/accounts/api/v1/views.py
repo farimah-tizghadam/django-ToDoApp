@@ -12,18 +12,16 @@ from .serializers import (
 from rest_framework.response import Response
 from rest_framework.authtoken.views import ObtainAuthToken, APIView
 from rest_framework.authtoken.models import Token
-from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import get_user_model
 from accounts.models import Profile
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 from rest_framework_simplejwt.views import TokenObtainPairView
-from mail_templated import send_mail, EmailMessage
+from mail_templated import EmailMessage
 from ..utils import EmailThread
 from rest_framework_simplejwt.tokens import RefreshToken
 import jwt
-from django.conf import settings
 from jwt.exceptions import ExpiredSignatureError, InvalidSignatureError
 from .permissions import AllowUnauthenticatedUser
 from rest_framework.exceptions import PermissionDenied

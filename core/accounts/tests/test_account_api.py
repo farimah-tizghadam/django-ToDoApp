@@ -1,7 +1,7 @@
 import pytest
 from django.urls import reverse
 from rest_framework.test import APIClient
-from accounts.models import User, Profile
+from accounts.models import User
 from datetime import datetime, timedelta
 from django.conf import settings
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -212,22 +212,6 @@ class TestUserApi:
         url = reverse("accounts:api-V1:password_reset")
         data = {"email": "testuser@test.com"}
         response = api_client.post(url, data)
-        assert response.status_code == 200
-
-    def test_reset_password_400_status_code(self, api_client, common_user):
-        url = reverse("accounts:api-V1:password_reset")
-        data = {}
-        response = api_client.post(url, data)
-        assert response.status_code == 400
-
-    def test_reset_password_200_status_code(
-        self, api_client, common_user, get_valid_token
-    ):
-        token = get_valid_token
-        url = reverse("accounts:api-V1:password_reset_confirm", kwargs={"token": token})
-
-        data = {"new_password": "@/12345678", "new_password_confirm": "@/12345678"}
-        response = api_client.put(url, data)
         assert response.status_code == 200
 
     def test_reset_password_400_status_code(

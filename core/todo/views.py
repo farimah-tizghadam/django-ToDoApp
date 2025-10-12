@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Task
@@ -7,7 +6,7 @@ from .forms import TaskForm
 from django.views import View
 from django.shortcuts import redirect
 from django.core.exceptions import PermissionDenied
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class TaskListView(LoginRequiredMixin, ListView):

@@ -11,6 +11,8 @@ django-filter
 drf-yasg[validation]
 djangorestframework-simplejwt
 
+coreapi
+
 #Email third party module
 django-mail-templated
 

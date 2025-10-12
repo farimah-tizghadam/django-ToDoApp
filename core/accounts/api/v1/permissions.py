@@ -1,6 +1,5 @@
 from rest_framework import permissions
 
-
 class AllowUnauthenticatedUser(permissions.BasePermission):
     """
     Custom permission to only allow unauthenticated users to access

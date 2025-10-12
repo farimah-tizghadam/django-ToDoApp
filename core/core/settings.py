@@ -25,11 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config("DEBUG", cast=bool)
+DEBUG = config("DEBUG",cast=bool)
 
-ALLOWED_HOSTS = config(
-    "ALLOWED_HOSTS", cast=lambda v: [s.strip() for s in v.split(",")], default="*"
-)
+ALLOWED_HOSTS = config("ALLOWED_HOSTS",cast=lambda v: [s.strip() for s in v.split(',')], default="*")
 
 
 # Application definition
@@ -49,6 +47,7 @@ INSTALLED_APPS = [
     "django_filters",
     "drf_yasg",
     "mail_templated",
+    "django_rest_passwordreset",
 ]
 
 MIDDLEWARE = [
@@ -67,7 +66,7 @@ ROOT_URLCONF = "core.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],
+        "DIRS": [BASE_DIR / 'templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -128,11 +127,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
-STATIC_ROOT = BASE_DIR / "static"
+STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static'
 
-MEDIA_URL = "media/"
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media' 
 
 STATICFILES_DIRS = [
     BASE_DIR / "staticfiles",
@@ -148,22 +147,20 @@ AUTH_USER_MODEL = "accounts.User"
 
 # rest framework settings & permissions
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.BasicAuthentication",
-        "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.TokenAuthentication",
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
 
 # email configuration
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp4dev"  # SMTP server host
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp4dev'  # SMTP server host
 EMAIL_PORT = 25
 EMAIL_USE_TLS = False  # True for TLS, False for SSL
-EMAIL_HOST_USER = ""  # SMTP server username
-EMAIL_HOST_PASSWORD = ""  # SMTP server password
+EMAIL_HOST_USER = ''  # SMTP server username
+EMAIL_HOST_PASSWORD = ''  # SMTP server password
 EMAIL_USE_SSL = False  # Set to True if using SSL
-
-PASSWORD_RESET_TIMEOUT = 60

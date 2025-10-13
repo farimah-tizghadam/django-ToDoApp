@@ -22,7 +22,7 @@ class Command(BaseCommand):
         self.fake = Faker()
 
     def handle(self, *args, **options):
-        user = User.objects.create_user(email=self.fake.email(), password='Test@123456')
+        user = User.objects.create_user(email=self.fake.email(), password="Test@123456")
         profile = Profile.objects.get(user=user)
 
         profile.first_name = self.fake.first_name()
@@ -32,7 +32,7 @@ class Command(BaseCommand):
 
         for _ in range(5):
             Task.objects.create(
-            user = profile,
-            title = self.fake.paragraph(nb_sentences=1)[:-1],
-            complete = random.choice([True, False]),
-        )
+                user=profile,
+                title=self.fake.paragraph(nb_sentences=1)[:-1],
+                complete=random.choice([True, False]),
+            )

@@ -170,3 +170,15 @@ EMAIL_USE_SSL = False  # Set to True if using SSL
 
 # celery config
 CELERY_BROKER_URL = "redis://redis:6379/1"
+
+
+# caching configs
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis:6379/2",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}

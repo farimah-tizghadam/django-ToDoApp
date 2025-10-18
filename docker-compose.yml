@@ -27,11 +27,21 @@ services:
     build: .
     volumes:
       - ./core:/app
+    command: celery -A core worker -l INFO
+    depends_on:
+      - redis
+      - backend
+
+  beater:
+    build: .
+    volumes:
+      - ./core:/app
     command: celery -A core beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
     depends_on:
       - redis
       - backend
-      
+
+
   smtp4dev:
     image: rnwood/smtp4dev:v3
     restart: always

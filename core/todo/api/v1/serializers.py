@@ -38,3 +38,8 @@ class TaskSerializer(serializers.ModelSerializer):
             user__id=self.context.get("request").user.id
         )
         return super().create(validate_data)
+
+
+class LocationSerializer(serializers.Serializer):
+
+    city = serializers.CharField(required=True)

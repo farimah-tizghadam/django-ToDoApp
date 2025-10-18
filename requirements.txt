@@ -12,6 +12,7 @@ drf-yasg[validation]
 djangorestframework-simplejwt
 
 coreapi
+persiantools
 
 #Email third party module
 django-mail-templated
@@ -25,6 +26,6 @@ Faker
 
 
 #backend proccess and cache
-redis
+django_redis
 celery
 django-celery-beat

@@ -32,7 +32,7 @@ class TaskModelViewSet(viewsets.ModelViewSet):
 class WeatherApiView(APIView):
 
     serializer_class = LocationSerializer
-    api_key = "71cc1c8daf531186a1eaf9bdde22f9d1"
+    api_key = "Your api_key"
 
     def getLatAndLon(self, cityName):
         try:

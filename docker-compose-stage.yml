@@ -8,10 +8,22 @@ services:
       - "6379:6379"
     command: redis-server --save 60 1 --loglevel warning
 
+
+  postgres:
+    image: postgres:13
+    container_name: postgres-todoapp-prod
+    restart: always
+    environment:
+      POSTGRES_DB: todoapp           
+      POSTGRES_USER: admin             
+      POSTGRES_PASSWORD: /@1234567  
+    volumes:
+      - dbwebservice:/var/lib/postgresql/data
+
   backend:
     build: .
     container_name: todoapp
-    command: gunicorn core.wsgi --bind 0.0.0.0:8000
+    command: sh -c "python manage.py makemigrations && python manage.py migrate && gunicorn core.wsgi --bind 0.0.0.0:8000"
     volumes: 
       - ./core:/app
       - static_volume:/app/static
@@ -23,6 +35,25 @@ services:
       - DEBUG=False
     depends_on:
       - redis
+      - postgres
+
+  worker:
+    build: .
+    volumes:
+      - ./core:/app
+    command: celery -A core worker -l INFO
+    depends_on:
+      - redis
+      - backend
+
+  beater:
+    build: .
+    volumes:
+      - ./core:/app
+    command: celery -A core beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    depends_on:
+      - redis
+      - backend
 
   nginx:
     image: nginx
@@ -41,3 +72,4 @@ services:
 volumes:
   static_volume:
   media_volume:
+  dbwebservice:

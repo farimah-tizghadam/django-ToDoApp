@@ -28,6 +28,8 @@ pytest
 pytest-django
 Faker
 
+#database module
+psycopg2-binary
 
 #backend proccess and cache
 django_redis

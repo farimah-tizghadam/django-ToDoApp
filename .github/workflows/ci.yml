@@ -52,8 +52,10 @@ jobs:
         python manage.py migrate
 
     - name: Run tests
+      working-directory: /app
       env:
         DATABASE_URL: postgres://admin:/@1234567@localhost:5432/todoapp
       run: |
         flake8
         pytest .
+

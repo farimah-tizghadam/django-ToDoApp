@@ -35,11 +35,6 @@ services:
     environment:
       - SECRET_KEY=test
       - DEBUG=False
-      - POSTGRES_DB=todoapp         # Add environment variables
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=/@1234567
-      - POSTGRES_HOST=postgres      # Use the service name
-      - POSTGRES_PORT=5432
     depends_on:
       - redis
       - postgres

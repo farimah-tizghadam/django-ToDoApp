@@ -94,7 +94,7 @@ DATABASES = {
         "NAME": os.getenv("POSTGRES_DB", "todoapp"),
         "USER": os.getenv("POSTGRES_USER", "admin"),
         "PASSWORD": os.getenv("POSTGRES_PASSWORD", "/@1234567"),
-        "HOST": os.getenv("POSTGRES_HOST", "postgres"),
+        "HOST": os.getenv("POSTGRES_HOST", "db"),
         "PORT": os.getenv("POSTGRES_PORT", "5432"),
     }
 }

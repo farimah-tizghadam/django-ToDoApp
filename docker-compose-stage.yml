@@ -9,7 +9,7 @@ services:
     command: redis-server --save 60 1 --loglevel warning
 
 
-  postgres:
+  db:
     image: postgres:13
     container_name: postgres-todoapp-prod
     restart: always
@@ -37,7 +37,7 @@ services:
       - DEBUG=False
     depends_on:
       - redis
-      - postgres
+      - db
 
   worker:
     build: .

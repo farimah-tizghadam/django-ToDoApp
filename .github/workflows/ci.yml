@@ -46,6 +46,7 @@ jobs:
         pip install -r requirements.txt
       
     - name: Run migrations
+      working-directory: /app
       env:
         DATABASE_URL: postgres://admin:/@1234567@backend:5432/todoapp
       run: |

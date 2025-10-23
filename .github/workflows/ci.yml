@@ -46,14 +46,14 @@ jobs:
         pip install -r requirements.txt
       
     - name: Run migrations
-      working-directory: /home/app
+      working-directory: ./core
       env:
         DATABASE_URL: postgres://admin:/@1234567@postgres:5432/todoapp
       run: |
         python manage.py migrate
 
     - name: Run tests
-      working-directory: /home/app
+      working-directory: ./core
       env:
         DATABASE_URL: postgres://admin:/@1234567@postgres:5432/todoapp
       run: |

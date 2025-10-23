@@ -10,8 +10,8 @@ services:
 
 
   db:
-    image: postgres:13
-    container_name: postgres-todoapp-prod
+    image: postgres:latest
+    container_name: postgres-todoapp
     restart: always
     environment:
       POSTGRES_DB: todoapp           
@@ -20,7 +20,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - dbwebservice:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql/
 
   backend:
     build: .
@@ -74,4 +74,4 @@ services:
 volumes:
   static_volume:
   media_volume:
-  dbwebservice:
+  db_data:

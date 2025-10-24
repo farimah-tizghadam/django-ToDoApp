@@ -55,7 +55,7 @@ jobs:
     - name: Run migrations
       working-directory: ./core
       env:
-        DATABASE_URL: postgres://admin:/@1234567@db:5432/todoapp
+        DATABASE_URL: postgres://admin:/@1234567@db:5432/todoapp-db?schema=public
       run: |
         python manage.py migrate
 

@@ -14,7 +14,7 @@ services:
     container_name: postgres-todoapp
     restart: always
     environment:
-      POSTGRES_DB: todoapp           
+      POSTGRES_DB: todoapp-db           
       POSTGRES_USER: admin             
       POSTGRES_PASSWORD: /@1234567
     ports:
@@ -40,7 +40,7 @@ services:
     environment:
       - SECRET_KEY=test
       - DEBUG=False
-      - DATABASE_URL=postgres://admin:/@1234567@db:5432/todoapp 
+      - DATABASE_URL=postgres://admin:/@1234567@db:5432/todoapp-db?schema=public
     depends_on:
       - redis
       - db

@@ -15,7 +15,7 @@ jobs:
       db:
         image: postgres:latest
         env:
-          POSTGRES_DB: todoapp
+          POSTGRES_DB: todoapp-db
           POSTGRES_USER: admin
           POSTGRES_PASSWORD: nimrimah1234567
         ports:
@@ -50,9 +50,14 @@ jobs:
 
     - name: Wait for PostgreSQL to be ready
       run: |
-        until pg_isready -h db -p 5432 -U admin; do
-        echo "Waiting for PostgreSQL..."
-        sleep 2
+       for i in {1..30}; do
+          if pg_isready -h db -p 5432 -U postgres; then
+            echo "PostgreSQL is ready!"
+            break
+          else
+            echo "Waiting for PostgreSQL..."
+            sleep 2
+          fi
         done
 
     - name: Run migrations

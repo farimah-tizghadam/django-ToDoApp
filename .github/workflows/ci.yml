@@ -17,7 +17,7 @@ jobs:
         env:
           POSTGRES_DB: todoapp
           POSTGRES_USER: admin
-          POSTGRES_PASSWORD: /@1234567
+          POSTGRES_PASSWORD: nimrimah1234567
         ports:
           - 5432:5432
         options: >-
@@ -55,7 +55,7 @@ jobs:
     - name: Run migrations
       working-directory: ./core
       env:
-        DATABASE_URL: postgres://admin:/@1234567@db:5432/todoapp-db
+        DATABASE_URL: postgres://admin:nimrimah1234567@db:5432/todoapp-db
       run: |
         python manage.py migrate
 

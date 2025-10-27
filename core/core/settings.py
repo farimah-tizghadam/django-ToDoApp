@@ -91,14 +91,15 @@ WSGI_APPLICATION = "core.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "todoapp",
-        "USER": "admin",
-        "PASSWORD": "nimrimah1234567",
-        "HOST": "127.0.0.1",
-        "PORT":  "5432",
+        "NAME": os.environ.get('DB_NAME', 'todoapp'),
+        "USER": os.environ.get('DB_USER', 'admin'),
+        "PASSWORD": os.environ.get('DB_PASSWORD', 'nimrimah1234567'),
+        "HOST": os.environ.get('DB_HOST', 'db'),  # Use 'localhost' for GitHub Actions
+        "PORT": os.environ.get('DB_PORT', '5432'),
     }
 }
 
+# Overrides for GitHub Actions CI
 if os.environ.get('GITHUB_WORKFLOW'):
     DATABASES = {
         'default': {
@@ -106,7 +107,7 @@ if os.environ.get('GITHUB_WORKFLOW'):
            'NAME': 'todoapp',
            'USER': 'admin',
            'PASSWORD': 'nimrimah1234567',
-           'HOST': '127.0.0.1',
+           'HOST': 'db',  # Change this to match service in GitHub Actions
            'PORT': '5432',
         }
     }

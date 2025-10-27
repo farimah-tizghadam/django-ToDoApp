@@ -40,7 +40,6 @@ services:
     environment:
       - SECRET_KEY=test
       - DEBUG=False
-      - DATABASE_URL=postgres://admin:nimrimah1234567@db:5432/todoapp-db
     depends_on:
       - redis
       - db

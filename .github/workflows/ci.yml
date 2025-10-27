@@ -55,8 +55,6 @@ jobs:
         done
 
     - name: Run migrations
-      env:
-        DATABASE_URL: postgres://admin:nimrimah1234567@db:5432/todoapp-db
       run: python manage.py migrate
 
     - name: Run tests

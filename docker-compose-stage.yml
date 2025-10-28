@@ -9,23 +9,18 @@ services:
     command: redis-server --save 60 1 --loglevel warning
 
 
-  db:
-    image: postgres:latest
+  postgres:
+    image: postgres:14
     container_name: postgres-todoapp
     restart: always
     environment:
       POSTGRES_DB: todoapp-db           
       POSTGRES_USER: admin             
-      POSTGRES_PASSWORD: nimrimah1234567
+      POSTGRES_PASSWORD: a/@123456
     ports:
       - "5432:5432"
     volumes:
-      - db_data:/var/lib/postgresql/
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - db_data:/var/lib/postgresql/data
 
   backend:
     build: .
@@ -42,7 +37,7 @@ services:
       - DEBUG=False
     depends_on:
       - redis
-      - db
+      - postgres
 
   worker:
     build: .

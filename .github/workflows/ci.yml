@@ -37,6 +37,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install pytest-django
+        cd core
         python manage.py migrate
 
     - name: Run Tests

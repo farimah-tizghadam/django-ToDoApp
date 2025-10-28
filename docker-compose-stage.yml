@@ -7,6 +7,8 @@ services:
     ports:
       - "6379:6379"
     command: redis-server --save 60 1 --loglevel warning
+    networks:
+    - webservice
 
 
   postgres:
@@ -17,6 +19,8 @@ services:
       POSTGRES_DB: todoapp-db           
       POSTGRES_USER: admin             
       POSTGRES_PASSWORD: a/@123456
+    networks:
+    - webservice
     ports:
       - "5432:5432"
     volumes:
@@ -38,6 +42,8 @@ services:
     depends_on:
       - redis
       - postgres
+    networks:
+    - webservice
 
   worker:
     build: .
@@ -47,6 +53,8 @@ services:
     depends_on:
       - redis
       - backend
+    networks:
+    - webservice
 
   beater:
     build: .
@@ -56,6 +64,8 @@ services:
     depends_on:
       - redis
       - backend
+    networks:
+    - webservice
 
   nginx:
     image: nginx
@@ -70,6 +80,13 @@ services:
     depends_on:
       - redis
       - backend
+    networks:
+    - webservice
+
+networks:
+   webservice:
+     driver: bridge
+     name: webservicenetwork
 
 volumes:
   static_volume:

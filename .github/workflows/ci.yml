@@ -31,6 +31,4 @@ jobs:
         pip install -r requirements.txt
         pip install pytest-django
         sudo systemctl start postgresql.service
-
-    - name: Run migrations
-      run: python manage.py migrate
+        python manage.py migrate

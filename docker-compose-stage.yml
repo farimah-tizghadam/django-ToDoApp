@@ -39,6 +39,10 @@ services:
     environment:
       - SECRET_KEY=test
       - DEBUG=False
+      - DB_NAME=todoapp-db         
+      - DB_USER=admin              
+      - DB_PASSWORD=a/@123456       
+      - DB_HOST=postgres:5432           
     depends_on:
       - redis
       - postgres

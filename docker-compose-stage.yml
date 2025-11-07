@@ -7,24 +7,26 @@ services:
     ports:
       - "6379:6379"
     command: redis-server --save 60 1 --loglevel warning
-    networks:
-    - webservice
 
 
   postgres:
     image: postgres:14
     container_name: postgres-todoapp
-    restart: always
-    environment:
-      POSTGRES_DB: todoapp-db           
-      POSTGRES_USER: admin             
-      POSTGRES_PASSWORD: a/@123456
-    networks:
-    - webservice
-    ports:
-      - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      - POSTGRES_DB=todoapp-db           
+      - POSTGRES_USER=admin             
+      - POSTGRES_PASSWORD=a/@123456
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-d", "todoapp-db", "-U", "admin"]
+      interval: 5s
+      timeout: 5s
+      retries: 5   
+  
 
   backend:
     build: .
@@ -41,13 +43,10 @@ services:
       - DEBUG=False
       - DB_NAME=todoapp-db         
       - DB_USER=admin              
-      - DB_PASSWORD=a/@123456       
-      - DB_HOST=postgres:5432           
+      - DB_PASSWORD=a/@123456                  
     depends_on:
       - redis
       - postgres
-    networks:
-    - webservice
 
   worker:
     build: .
@@ -57,8 +56,6 @@ services:
     depends_on:
       - redis
       - backend
-    networks:
-    - webservice
 
   beater:
     build: .
@@ -68,8 +65,6 @@ services:
     depends_on:
       - redis
       - backend
-    networks:
-    - webservice
 
   nginx:
     image: nginx
@@ -84,13 +79,7 @@ services:
     depends_on:
       - redis
       - backend
-    networks:
-    - webservice
 
-networks:
-   webservice:
-     driver: bridge
-     name: webservicenetwork
 
 volumes:
   static_volume:

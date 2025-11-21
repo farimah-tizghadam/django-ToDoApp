@@ -10,13 +10,12 @@ markdown
 django-filter
 drf-yasg[validation]
 djangorestframework-simplejwt
-
-coreapi
-persiantools
+djoser
+django-cors-headers
+psycopg2-binary
 
 #deployment modules
 gunicorn
-
 
 #Email third party module
 django-mail-templated
@@ -28,10 +27,13 @@ pytest
 pytest-django
 Faker
 
-#database module
-psycopg2-binary
 
 #backend proccess and cache
+redis
 django_redis
 celery
 django-celery-beat
+
+persiantools
+coreapi
+requests

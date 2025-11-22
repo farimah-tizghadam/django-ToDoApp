@@ -69,7 +69,12 @@ services:
     depends_on:
       - redis
       - backend
-
+    environment:
+      - DB_NAME=todoapp-db
+      - DB_USER=admin
+      - DB_PASSWORD=a/@123456
+      - DB_HOST=postgres
+      
   nginx:
     image: nginx
     container_name: nginx-todoapp

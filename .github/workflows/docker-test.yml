@@ -16,6 +16,14 @@ jobs:
     - uses: actions/checkout@v4
     - name: Setup Docker-Compose
       run: docker compose up -d
+    - name: Run Migrations
+      run: docker exec todoapp sh -c "python manage.py migrate"
     - name: Run Tests
+      env:
+        DB_NAME: todoapp-db
+        DB_USER: admin
+        DB_PASSWORD: a/@123456
+        DB_HOST: postgres
+        TEST_DB_NAME: test_todoapp_db 
       run: docker exec todoapp sh -c "flake8 && pytest ."
 

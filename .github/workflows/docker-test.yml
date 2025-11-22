@@ -7,23 +7,39 @@ on:
     branches: [ "main" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: todoapp-db          # Match your Django DB name
+          POSTGRES_USER: admin              # Match your Django DB user
+          POSTGRES_PASSWORD: a/@123456      # Match your Django DB password
+        ports:
+          - 5432:5432                       # Expose the database port
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Wait for PostgreSQL to be ready
+      run: |
+        while ! nc -z localhost 5432; do
+          echo "Waiting for PostgreSQL to be ready..."
+          sleep 2
+        done
+
     - name: Setup Docker-Compose
       run: docker compose up -d
+
     - name: Run Migrations
       run: docker exec todoapp sh -c "python manage.py migrate"
+
     - name: Run Tests
       env:
         DB_NAME: todoapp-db
         DB_USER: admin
         DB_PASSWORD: a/@123456
-        DB_HOST: postgres
-        TEST_DB_NAME: test_todoapp_db 
+        DB_HOST: localhost  # Use localhost since services run on the same VM
       run: docker exec todoapp sh -c "flake8 && pytest ."
-

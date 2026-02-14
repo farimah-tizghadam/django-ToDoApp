@@ -90,15 +90,14 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 DATABASES = {
     "default": {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME', 'todoapp-db'),  # Default to 'todoapp-db'
-        'USER': os.environ.get('DB_USER', 'admin'),        # Default to 'admin'
-        'PASSWORD': os.environ.get('DB_PASSWORD', 'a/@123456'),  # Set your password
-        'HOST': 'localhost',  # Connect to localhost when using GitHub Actions
-        'PORT': '5432',
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ.get("DB_NAME", "todoapp-db"),
+        "USER": os.environ.get("DB_USER", "admin"),
+        "PASSWORD": os.environ.get("DB_PASSWORD", ""),
+        "HOST": os.environ.get("DB_HOST", "postgres"),
+        "PORT": os.environ.get("DB_PORT", "5432"),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

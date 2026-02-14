@@ -2,44 +2,37 @@ name: Django Project Test
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
-    services:
-      db:
-        image: postgres:latest
-        env:
-          POSTGRES_DB: todoapp-db          # Match your Django DB name
-          POSTGRES_USER: admin              # Match your Django DB user
-          POSTGRES_PASSWORD: a/@123456      # Match your Django DB password
-        ports:
-          - 5432:5432                       # Expose the database port
-
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Wait for PostgreSQL to be ready
-      run: |
-        while ! nc -z localhost 5432; do
-          echo "Waiting for PostgreSQL to be ready..."
-          sleep 2
-        done
+      - name: Build images (stage)
+        run: docker compose -f docker-compose-stage.yml build
 
-    - name: Setup Docker-Compose
-      run: docker compose up -d
+      - name: Start Postgres & Redis
+        run: docker compose -f docker-compose-stage.yml up -d postgres redis
 
-    - name: Run Migrations
-      run: docker exec todoapp sh -c "python manage.py migrate"
+      - name: Wait for Postgres
+        run: |
+          docker compose -f docker-compose-stage.yml exec -T postgres \
+            sh -c 'until pg_isready -U admin -d todoapp-db; do sleep 1; done'
 
-    - name: Run Tests
-      env:
-        DB_NAME: todoapp-db
-        DB_USER: admin
-        DB_PASSWORD: a/@123456
-        DB_HOST: localhost  # Use localhost since services run on the same VM
-      run: docker exec todoapp sh -c "flake8 && pytest ."
+      - name: Run migrations
+        run: docker compose -f docker-compose-stage.yml run --rm migrate
+
+      - name: Start backend
+        run: docker compose -f docker-compose-stage.yml up -d backend
+
+      - name: Run Tests
+        run: docker compose -f docker-compose-stage.yml exec -T backend sh -c "flake8 && pytest ."
+
+      - name: Logs on failure
+        if: failure()
+        run: docker compose -f docker-compose-stage.yml logs --no-color

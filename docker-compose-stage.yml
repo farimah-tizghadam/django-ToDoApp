@@ -13,7 +13,7 @@ services:
     image: postgres:17.1
     container_name: postgres-todoapp
     volumes:
-      - db_data:/var/lib/postgresql
+      - db_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     restart: always
@@ -26,17 +26,31 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10   
+
+  migrate:
+    build: .
+    working_dir: /app/core
+    volumes:
+      - ./:/app
+    command: python manage.py migrate --noinput
+    environment:
+      - SECRET_KEY=test
+      - DEBUG=False
+      - DB_HOST=postgres
+      - DB_NAME=todoapp-db
+      - DB_USER=admin
+      - DB_PASSWORD=a/@123456
+    depends_on:
+     - postgres
   
 
   backend:
     build: .
     container_name: todoapp
-    command: >
-      sh -c "python manage.py makemigrations &&
-             python manage.py migrate &&
-             gunicorn core.wsgi --bind 0.0.0.0:8000"
+    command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
+    working_dir: /app/core
     volumes: 
-      - ./core:/app
+      - ./:/app
       - static_volume:/app/static
       - media_volume:/app/media
     expose:
@@ -52,23 +66,29 @@ services:
       - redis
       - postgres
       
+      
   worker:
     build: .
+    working_dir: /app/core
     volumes:
-      - ./core:/app
+      - ./:/app
     command: celery -A core worker -l INFO
     depends_on:
       - redis
       - backend
+      - postgres
+
 
   beater:
     build: .
+    working_dir: /app/core  
     volumes:
-      - ./core:/app
+      - ./:/app
     command: celery -A core beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
     depends_on:
       - redis
       - backend
+      - postgres
     environment:
       - DB_NAME=todoapp-db
       - DB_USER=admin
@@ -88,6 +108,7 @@ services:
     depends_on:
       - redis
       - backend
+
 
 
 volumes:

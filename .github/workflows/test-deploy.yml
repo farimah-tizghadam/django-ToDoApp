@@ -39,7 +39,9 @@ jobs:
         run: docker compose -f docker-compose-stage.yml logs --no-color
 
   Deploy:
+    if: ${{ always() && contains(join(needs.*.result, ','), 'success') }}
     name: Deploy
+    needs: Test
     runs-on: ubuntu-latest
 
     steps:

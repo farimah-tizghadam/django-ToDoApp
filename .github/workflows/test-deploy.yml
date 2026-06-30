@@ -54,3 +54,4 @@ jobs:
           host: ${{secrets.HOST}}
           port: ${{secrets.PORT}}
           script: ls
+

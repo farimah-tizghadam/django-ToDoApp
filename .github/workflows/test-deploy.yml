@@ -53,4 +53,5 @@ jobs:
           password: ${{secrets.PASSWORD}}
           host: ${{secrets.HOST}}
           port: ${{secrets.PORT}}
+          script: ls
 
